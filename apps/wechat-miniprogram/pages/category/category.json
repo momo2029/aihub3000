@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "工具分类",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
+  "usingComponents": {
+    "search-bar": "/components/search-bar/search-bar",
+    "category-tab": "/components/category-tab/category-tab",
+    "tool-card": "/components/tool-card/tool-card",
+    "loading": "/components/loading/loading",
+    "empty": "/components/empty/empty"
+  }
+}

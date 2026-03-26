@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "AIHub3000",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "search-bar": "/components/search-bar/search-bar",
+    "category-tab": "/components/category-tab/category-tab",
+    "tool-card": "/components/tool-card/tool-card",
+    "loading": "/components/loading/loading"
+  }
+}

@@ -1,0 +1,19 @@
+<scroll-view class="category-tab" scroll-x enable-flex>
+  <view
+    class="tab-item {{current === '' ? 'active' : ''}}"
+    bindtap="onTap"
+    data-key=""
+  >
+    全部
+  </view>
+  <view
+    wx:for="{{categories}}"
+    wx:key="key"
+    class="tab-item {{current === item.key ? 'active' : ''}}"
+    bindtap="onTap"
+    data-key="{{item.key}}"
+  >
+    <text class="tab-icon">{{item.icon}}</text>
+    {{item.name}}
+  </view>
+</scroll-view>

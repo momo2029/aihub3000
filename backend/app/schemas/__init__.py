@@ -1,0 +1,138 @@
+from datetime import datetime
+from pydantic import BaseModel, Field
+from typing import Optional, List
+from app.models import ToolCategory, ToolStatus
+
+
+# ============ User Schemas ============
+class UserBase(BaseModel):
+    nickname: Optional[str] = None
+    avatar: Optional[str] = None
+
+
+class UserCreate(BaseModel):
+    openid: str
+    nickname: Optional[str] = None
+    avatar: Optional[str] = None
+
+
+class UserResponse(UserBase):
+    id: int
+    openid: str
+    is_active: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+# ============ Tool Schemas ============
+class ToolBase(BaseModel):
+    name: str
+    description: Optional[str] = None
+    icon: Optional[str] = None
+    cover: Optional[str] = None
+    url: Optional[str] = None
+    category: ToolCategory
+    tags: Optional[List[str]] = None
+    features: Optional[List[str]] = None
+    pricing: Optional[str] = None
+
+
+class ToolCreate(ToolBase):
+    pass
+
+
+class ToolUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    icon: Optional[str] = None
+    cover: Optional[str] = None
+    url: Optional[str] = None
+    category: Optional[ToolCategory] = None
+    tags: Optional[List[str]] = None
+    features: Optional[List[str]] = None
+    pricing: Optional[str] = None
+    status: Optional[ToolStatus] = None
+    is_featured: Optional[bool] = None
+    is_hot: Optional[bool] = None
+
+
+class ToolResponse(ToolBase):
+    id: int
+    rating: float
+    view_count: int
+    favorite_count: int
+    status: ToolStatus
+    is_featured: bool
+    is_hot: bool
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ToolListResponse(BaseModel):
+    items: List[ToolResponse]
+    total: int
+    page: int
+    page_size: int
+    has_more: bool
+
+
+# ============ Article Schemas ============
+class ArticleBase(BaseModel):
+    title: str
+    summary: Optional[str] = None
+    content: Optional[str] = None
+    cover: Optional[str] = None
+    author: Optional[str] = None
+    source: Optional[str] = None
+
+
+class ArticleCreate(ArticleBase):
+    pass
+
+
+class ArticleUpdate(BaseModel):
+    title: Optional[str] = None
+    summary: Optional[str] = None
+    content: Optional[str] = None
+    cover: Optional[str] = None
+    author: Optional[str] = None
+    source: Optional[str] = None
+    is_published: Optional[bool] = None
+
+
+class ArticleResponse(ArticleBase):
+    id: int
+    view_count: int
+    is_published: bool
+    published_at: Optional[datetime] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ArticleListResponse(BaseModel):
+    items: List[ArticleResponse]
+    total: int
+    page: int
+    page_size: int
+    has_more: bool
+
+
+# ============ Common Schemas ============
+class Response(BaseModel):
+    code: int = 0
+    message: str = "success"
+    data: Optional[dict] = None
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int

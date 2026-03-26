@@ -1,0 +1,28 @@
+.category-tab {
+  display: flex;
+  white-space: nowrap;
+  padding: 20rpx 0;
+  gap: 16rpx;
+}
+
+.tab-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: #6b7280;
+  background-color: #f3f4f6;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.tab-item.active {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  box-shadow: 0 4rpx 12rpx rgba(99, 102, 241, 0.3);
+}
+
+.tab-icon {
+  margin-right: 8rpx;
+}

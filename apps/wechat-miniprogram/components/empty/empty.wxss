@@ -1,0 +1,38 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 40rpx;
+}
+
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  border-radius: 50%;
+  margin-bottom: 32rpx;
+}
+
+.empty-icon .iconfont {
+  font-size: 80rpx;
+  color: #9ca3af;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #9ca3af;
+  margin-bottom: 32rpx;
+}
+
+.empty-btn {
+  padding: 20rpx 48rpx;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(99, 102, 241, 0.3);
+}

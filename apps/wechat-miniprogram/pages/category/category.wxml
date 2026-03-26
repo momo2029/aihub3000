@@ -1,0 +1,46 @@
+<view class="category-page">
+  <!-- Search Bar -->
+  <search-bar
+    placeholder="搜索AI工具..."
+    bind:search="onSearch"
+  />
+
+  <!-- Category Tabs -->
+  <view class="category-tabs">
+    <category-tab
+      categories="{{categories}}"
+      current="{{currentCategory}}"
+      bind:change="onCategoryChange"
+    />
+  </view>
+
+  <!-- Tools List -->
+  <view class="tools-container">
+    <view class="tools-list" wx:if="{{tools.length}}">
+      <tool-card
+        wx:for="{{tools}}"
+        wx:key="id"
+        tool="{{item}}"
+        bind:tap="onToolTap"
+      />
+    </view>
+
+    <!-- Loading -->
+    <loading show="{{loading}}" />
+
+    <!-- Loading More -->
+    <loading show="{{loadingMore}}" text="加载更多..." />
+
+    <!-- Empty -->
+    <empty
+      wx:if="{{!loading && !tools.length}}"
+      icon="search"
+      text="没有找到相关工具"
+    />
+
+    <!-- No More -->
+    <view class="no-more" wx:if="{{!hasMore && tools.length && !loadingMore}}">
+      <text>— 已经到底了 —</text>
+    </view>
+  </view>
+</view>

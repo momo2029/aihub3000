@@ -1,0 +1,44 @@
+<view class="tool-card" bindtap="onTap">
+  <view class="tool-header">
+    <image class="tool-icon" src="{{tool.icon || '/images/default-tool.png'}}" mode="aspectFill" />
+    <view class="tool-info">
+      <view class="tool-name">{{tool.name}}</view>
+      <view class="tool-meta">
+        <view class="tool-category" wx:if="{{showCategory && tool.category}}" style="background-color: {{categoryMap[tool.category].color}}20; color: {{categoryMap[tool.category].color}}">
+          {{categoryMap[tool.category].name}}
+        </view>
+        <view class="tool-pricing" wx:if="{{tool.pricing}}" style="background-color: {{pricingMap[tool.pricing].color}}20; color: {{pricingMap[tool.pricing].color}}">
+          {{pricingMap[tool.pricing].name}}
+        </view>
+      </view>
+    </view>
+    <view class="tool-favorite" catchtap="onFavoriteTap">
+      <text class="iconfont {{tool.isFavorite ? 'icon-favorite-fill' : 'icon-favorite'}}" style="color: {{tool.isFavorite ? '#ec4899' : '#999'}}"></text>
+    </view>
+  </view>
+
+  <view class="tool-description">{{tool.description}}</view>
+
+  <view class="tool-tags" wx:if="{{tool.tags && tool.tags.length}}">
+    <view class="tag" wx:for="{{tool.tags}}" wx:key="index" wx:if="{{index < 3}}">
+      {{item}}
+    </view>
+  </view>
+
+  <view class="tool-footer">
+    <view class="tool-stats">
+      <view class="stat-item">
+        <text class="iconfont icon-eye"></text>
+        <text>{{tool.view_count || 0}}</text>
+      </view>
+      <view class="stat-item">
+        <text class="iconfont icon-heart"></text>
+        <text>{{tool.favorite_count || 0}}</text>
+      </view>
+    </view>
+    <view class="tool-rating" wx:if="{{tool.rating}}">
+      <text class="iconfont icon-star" style="color: #f59e0b;"></text>
+      <text>{{tool.rating}}</text>
+    </view>
+  </view>
+</view>

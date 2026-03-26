@@ -1,0 +1,87 @@
+<view class="detail-page">
+  <!-- Loading -->
+  <loading show="{{loading}}" />
+
+  <!-- Content -->
+  <block wx:if="{{!loading && tool}}">
+    <!-- Header -->
+    <view class="detail-header">
+      <image class="tool-cover" src="{{tool.cover || tool.icon || '/images/default-tool.png'}}" mode="aspectFill" />
+      <view class="header-mask"></view>
+      <view class="header-info">
+        <image class="tool-icon" src="{{tool.icon || '/images/default-tool.png'}}" mode="aspectFill" />
+        <view class="tool-name">{{tool.name}}</view>
+        <view class="tool-meta">
+          <view class="meta-item">
+            <text class="iconfont icon-eye"></text>
+            <text>{{tool.view_count || 0}}</text>
+          </view>
+          <view class="meta-item">
+            <text class="iconfont icon-heart"></text>
+            <text>{{tool.favorite_count || 0}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{tool.rating}}">
+            <text class="iconfont icon-star"></text>
+            <text>{{tool.rating}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tags -->
+    <view class="detail-section" wx:if="{{tool.tags && tool.tags.length}}">
+      <view class="tags-wrap">
+        <view class="tag" wx:for="{{tool.tags}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <!-- Description -->
+    <view class="detail-section">
+      <view class="section-title">简介</view>
+      <view class="description">{{tool.description || '暂无简介'}}</view>
+    </view>
+
+    <!-- Features -->
+    <view class="detail-section" wx:if="{{tool.features && tool.features.length}}">
+      <view class="section-title">功能特点</view>
+      <view class="features-list">
+        <view class="feature-item" wx:for="{{tool.features}}" wx:key="index">
+          <text class="iconfont icon-check"></text>
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Pricing -->
+    <view class="detail-section" wx:if="{{tool.pricing}}">
+      <view class="section-title">价格</view>
+      <view class="pricing-badge {{tool.pricing}}">
+        <text wx:if="{{tool.pricing === 'free'}}">免费</text>
+        <text wx:elif="{{tool.pricing === 'freemium'}}">免费试用</text>
+        <text wx:else>付费</text>
+      </view>
+    </view>
+
+    <!-- Actions -->
+    <view class="detail-actions">
+      <view class="action-btn favorite {{isFavorite ? 'active' : ''}}" bindtap="onFavoriteTap">
+        <text class="iconfont {{isFavorite ? 'icon-heart-fill' : 'icon-heart'}}"></text>
+        <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="action-btn share" bindtap="onShareTap">
+        <text class="iconfont icon-share"></text>
+        <text>分享</text>
+      </view>
+      <view class="action-btn primary" bindtap="onUseTap">
+        <text class="iconfont icon-link"></text>
+        <text>使用工具</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- Empty -->
+  <view class="empty-state" wx:if="{{!loading && !tool}}">
+    <text class="iconfont icon-empty"></text>
+    <text>工具不存在</text>
+  </view>
+</view>

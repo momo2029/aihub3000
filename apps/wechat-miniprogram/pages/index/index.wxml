@@ -1,0 +1,86 @@
+<view class="index-page">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="header-title">
+        <text class="title">AIHub3000</text>
+        <text class="subtitle">发现最优秀的AI工具</text>
+      </view>
+      <view class="search-wrap" bindtap="onSearchTap">
+        <text class="iconfont icon-search"></text>
+        <text class="search-placeholder">搜索AI工具...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Categories -->
+  <view class="section">
+    <view class="category-grid">
+      <view
+        class="category-item"
+        wx:for="{{categories}}"
+        wx:key="key"
+        bindtap="onCategoryTap"
+        data-key="{{item.key}}"
+      >
+        <view class="category-icon" style="background: {{item.color || '#6366f1'}}">
+          <text class="iconfont icon-{{item.icon}}"></text>
+        </view>
+        <view class="category-name">{{item.name}}</view>
+        <view class="category-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Featured Tools -->
+  <view class="section" wx:if="{{featuredTools.length}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="iconfont icon-star" style="color: #f59e0b;"></text>
+        精选推荐
+      </view>
+      <view class="section-more" bindtap="onMoreTap" data-type="featured">
+        更多 <text class="iconfont icon-arrow-right"></text>
+      </view>
+    </view>
+    <view class="tools-list">
+      <tool-card
+        wx:for="{{featuredTools}}"
+        wx:key="id"
+        tool="{{item}}"
+        bind:tap="onToolTap"
+      />
+    </view>
+  </view>
+
+  <!-- Hot Tools -->
+  <view class="section" wx:if="{{hotTools.length}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="iconfont icon-fire" style="color: #ef4444;"></text>
+        热门工具
+      </view>
+      <view class="section-more" bindtap="onMoreTap" data-type="hot">
+        更多 <text class="iconfont icon-arrow-right"></text>
+      </view>
+    </view>
+    <view class="tools-list">
+      <tool-card
+        wx:for="{{hotTools}}"
+        wx:key="id"
+        tool="{{item}}"
+        bind:tap="onToolTap"
+      />
+    </view>
+  </view>
+
+  <!-- Loading -->
+  <loading show="{{loading}}" />
+
+  <!-- Empty State -->
+  <view class="empty-state" wx:if="{{!loading && !featuredTools.length && !hotTools.length}}">
+    <text class="iconfont icon-empty"></text>
+    <text>暂无工具数据</text>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+.category-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.category-tabs {
+  background-color: #ffffff;
+  padding: 0 24rpx;
+}
+
+.tools-container {
+  padding: 24rpx;
+}
+
+.tools-list {
+  margin-top: -8rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #9ca3af;
+  font-size: 26rpx;
+}

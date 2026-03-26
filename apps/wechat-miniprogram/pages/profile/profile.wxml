@@ -1,0 +1,55 @@
+<view class="profile-page">
+  <!-- User Header -->
+  <view class="user-header">
+    <view class="header-bg"></view>
+    <view class="user-info" wx:if="{{isLogin && userInfo}}">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}" mode="aspectFill" />
+      <view class="user-name">{{userInfo.nickname || '用户'}}</view>
+      <view class="user-id">ID: {{userInfo.id}}</view>
+    </view>
+    <view class="login-btn" wx:else bindtap="onLogin">
+      <image class="avatar default" src="/images/default-avatar.png" mode="aspectFill" />
+      <view class="login-text">点击登录</view>
+    </view>
+  </view>
+
+  <!-- Stats -->
+  <view class="stats-card" wx:if="{{isLogin}}">
+    <view class="stat-item">
+      <view class="stat-value">{{favorites.length || 0}}</view>
+      <view class="stat-label">收藏</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-value">{{history.length || 0}}</view>
+      <view class="stat-label">历史</view>
+    </view>
+  </view>
+
+  <!-- Menu -->
+  <view class="menu-card">
+    <view
+      class="menu-item"
+      wx:for="{{menuList}}"
+      wx:key="key"
+      bindtap="onMenuTap"
+      data-key="{{item.key}}"
+    >
+      <view class="menu-icon">
+        <text class="iconfont icon-{{item.icon}}"></text>
+      </view>
+      <view class="menu-title">{{item.title}}</view>
+      <text class="iconfont icon-arrow-right"></text>
+    </view>
+  </view>
+
+  <!-- Logout -->
+  <view class="logout-btn" wx:if="{{isLogin}}" bindtap="onLogout">
+    退出登录
+  </view>
+
+  <!-- Version -->
+  <view class="version">
+    AIHub3000 v1.0.0
+  </view>
+</view>

@@ -1,0 +1,60 @@
+/* AIHub3000 Icons - 使用Unicode符号作为占位图标 */
+/* 实际项目中请替换为真实的iconfont */
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tab Bar Icons */
+.icon-home:before { content: "🏠"; }
+.icon-category:before { content: "📂"; }
+.icon-article:before { content: "📰"; }
+.icon-profile:before { content: "👤"; }
+
+/* Action Icons */
+.icon-search:before { content: "🔍"; }
+.icon-close:before { content: "✕"; }
+.icon-arrow-right:before { content: "›"; }
+.icon-arrow-left:before { content: "‹"; }
+.icon-share:before { content: "↗"; }
+.icon-link:before { content: "🔗"; }
+
+/* Status Icons */
+.icon-eye:before { content: "👁"; }
+.icon-heart:before { content: "♡"; }
+.icon-heart-fill:before { content: "♥"; }
+.icon-star:before { content: "★"; }
+.icon-star-fill:before { content: "★"; }
+.icon-check:before { content: "✓"; }
+.icon-fire:before { content: "🔥"; }
+
+/* Category Icons */
+.icon-palette:before { content: "🎨"; }
+.icon-rocket:before { content: "🚀"; }
+.icon-video:before { content: "🎬"; }
+
+/* Menu Icons */
+.icon-favorite:before { content: "♡"; }
+.icon-favorite-fill:before { content: "♥"; }
+.icon-time:before { content: "⏱"; }
+.icon-feedback:before { content: "💬"; }
+.icon-about:before { content: "ℹ"; }
+
+/* Empty States */
+.icon-empty:before { content: "📭"; }
+.icon-error:before { content: "⚠"; }
+.icon-success:before { content: "✓"; }
+
+/* Additional Icons */
+.icon-plus:before { content: "+"; }
+.icon-minus:before { content: "-"; }
+.icon-refresh:before { content: "↻"; }
+.icon-setting:before { content: "⚙"; }
+.icon-edit:before { content: "✎"; }
+.icon-delete:before { content: "🗑"; }
+.icon-copy:before { content: "📋"; }
+.icon-download:before { content: "⬇"; }
+.icon-upload:before { content: "⬆"; }

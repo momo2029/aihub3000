@@ -1,0 +1,22 @@
+<view class="search-bar">
+  <view class="search-input-wrap">
+    <text class="iconfont icon-search"></text>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="{{placeholder}}"
+      value="{{inputValue}}"
+      confirm-type="search"
+      bindinput="onInput"
+      bindconfirm="onSearch"
+      bindfocus="onFocus"
+      bindblur="onBlur"
+    />
+    <text
+      class="iconfont icon-close"
+      wx:if="{{inputValue}}"
+      bindtap="onClear"
+    ></text>
+  </view>
+  <view class="search-btn" bindtap="onSearch">搜索</view>
+</view>
