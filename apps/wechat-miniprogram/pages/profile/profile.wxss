@@ -47,6 +47,10 @@
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 8rpx;
+  max-width: 400rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .user-id {
