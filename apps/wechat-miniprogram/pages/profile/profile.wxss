@@ -7,7 +7,7 @@
 /* User Header */
 .user-header {
   position: relative;
-  padding: 80rpx 32rpx 60rpx;
+  padding: 80rpx 32rpx 80rpx;
   margin-bottom: -40rpx;
 }
 
