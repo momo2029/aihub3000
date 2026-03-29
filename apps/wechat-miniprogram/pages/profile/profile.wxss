@@ -16,7 +16,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 300rpx;
+  height: 400rpx;
   background: linear-gradient(135deg, #6366f1, #818cf8);
   border-radius: 0 0 60rpx 60rpx;
 }
