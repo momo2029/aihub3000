@@ -1,8 +1,8 @@
 const app = getApp()
 const mock = require('./mock')
 
-const BASE_URL = 'http://localhost:8000/api/v1'
-const USE_MOCK = true // 开发时使用Mock数据，生产环境改为false
+const BASE_URL = 'https://aihub3000.3198.net/api/v1'
+const USE_MOCK = false // 生产环境使用真实API
 
 /**
  * 模拟API响应
