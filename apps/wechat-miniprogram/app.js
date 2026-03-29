@@ -2,7 +2,7 @@ App({
   globalData: {
     userInfo: null,
     token: null,
-    baseUrl: 'http://localhost:8000/api/v1'
+    baseUrl: 'https://aihub3000.3198.net/api/v1'
   },
 
   onLaunch() {
@@ -20,6 +20,7 @@ App({
 
     wx.request({
       url: `${this.globalData.baseUrl}/users/me`,
+      timeout: 5000,
       header: {
         'Authorization': `Bearer ${token}`
       },
@@ -27,6 +28,9 @@ App({
         if (res.statusCode === 200) {
           this.globalData.userInfo = res.data
         }
+      },
+      fail: (err) => {
+        console.log('获取用户信息失败:', err)
       }
     })
   },

@@ -1,0 +1,11 @@
+<view class="login-page">
+  <view class="login-container">
+    <image class="logo" src="/images/logo.png" mode="aspectFit" />
+    <text class="title">AIHub3000</text>
+    <text class="subtitle">发现最优秀的AI工具</text>
+
+    <button class="login-btn" bindtap="onLogin" loading="{{loading}}">
+      微信登录
+    </button>
+  </view>
+</view>

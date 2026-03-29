@@ -1,20 +1,7 @@
 from datetime import datetime
-from sqlalchemy import String, Text, Integer, Boolean, DateTime, ForeignKey, Enum as SQLEnum
+from sqlalchemy import String, Text, Integer, Boolean, DateTime, ForeignKey, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
-import enum
-
-
-class ToolCategory(str, enum.Enum):
-    PAINTING = "painting"       # AI绘画
-    EFFICIENCY = "efficiency"   # AI效率工具
-    MULTIMEDIA = "multimedia"  # AI多媒体
-
-
-class ToolStatus(str, enum.Enum):
-    ACTIVE = "active"
-    INACTIVE = "inactive"
-    PENDING = "pending"
 
 
 class User(Base):
@@ -43,14 +30,14 @@ class Tool(Base):
     icon: Mapped[str | None] = mapped_column(String(500))
     cover: Mapped[str | None] = mapped_column(String(500))
     url: Mapped[str | None] = mapped_column(String(500))
-    category: Mapped[ToolCategory] = mapped_column(SQLEnum(ToolCategory), index=True)
-    tags: Mapped[str | None] = mapped_column(String(500))  # JSON array
-    features: Mapped[str | None] = mapped_column(Text)  # JSON array
+    category: Mapped[str] = mapped_column(String(50), index=True)  # painting, chat, multimedia, search, efficiency
+    tags: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
+    features: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
     pricing: Mapped[str | None] = mapped_column(String(50))  # free, freemium, paid
     rating: Mapped[float] = mapped_column(Integer, default=0)  # 0-5
     view_count: Mapped[int] = mapped_column(Integer, default=0)
     favorite_count: Mapped[int] = mapped_column(Integer, default=0)
-    status: Mapped[ToolStatus] = mapped_column(SQLEnum(ToolStatus), default=ToolStatus.ACTIVE)
+    status: Mapped[str] = mapped_column(String(20), default="active")  # active, inactive, pending
     is_featured: Mapped[bool] = mapped_column(Boolean, default=False)
     is_hot: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

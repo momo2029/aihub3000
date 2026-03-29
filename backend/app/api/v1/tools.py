@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from typing import Optional
 from app.database import get_db
-from app.models import Tool, ToolCategory, ToolStatus
+from app.models import Tool
 from app.schemas import ToolResponse, ToolListResponse, ToolCreate, ToolUpdate
 
 router = APIRouter(prefix="/tools", tags=["tools"])
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/tools", tags=["tools"])
 
 @router.get("", response_model=ToolListResponse)
 async def get_tools(
-    category: Optional[ToolCategory] = None,
+    category: Optional[str] = None,
     is_featured: Optional[bool] = None,
     is_hot: Optional[bool] = None,
     keyword: Optional[str] = None,
@@ -20,7 +20,7 @@ async def get_tools(
     db: AsyncSession = Depends(get_db)
 ):
     """获取工具列表"""
-    query = select(Tool).where(Tool.status == ToolStatus.ACTIVE)
+    query = select(Tool).where(Tool.status == "active")
 
     if category:
         query = query.where(Tool.category == category)
@@ -57,8 +57,9 @@ async def get_categories():
     return {
         "categories": [
             {"key": "painting", "name": "AI绘画", "icon": "palette", "description": "图像生成、编辑、设计"},
-            {"key": "efficiency", "name": "AI效率", "icon": "rocket", "description": "写作、翻译、编程"},
+            {"key": "chat", "name": "AI对话", "icon": "chat", "description": "智能对话、问答助手"},
             {"key": "multimedia", "name": "AI多媒体", "icon": "video", "description": "视频、音频、3D"},
+            {"key": "search", "name": "AI搜索", "icon": "search", "description": "智能搜索、信息整合"},
         ]
     }
 
@@ -66,7 +67,7 @@ async def get_categories():
 @router.get("/{tool_id}", response_model=ToolResponse)
 async def get_tool(tool_id: int, db: AsyncSession = Depends(get_db)):
     """获取工具详情"""
-    query = select(Tool).where(Tool.id == tool_id, Tool.status == ToolStatus.ACTIVE)
+    query = select(Tool).where(Tool.id == tool_id, Tool.status == "active")
     result = await db.execute(query)
     tool = result.scalar_one_or_none()
 

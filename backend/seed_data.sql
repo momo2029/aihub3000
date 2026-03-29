@@ -1,25 +1,28 @@
--- 插入工具数据
-INSERT INTO tools (name, description, icon, cover, url, category, tags, features, pricing, rating, view_count, favorite_count, status, is_featured, is_hot, created_at, updated_at) VALUES
-('文心一格', '百度推出的AI绘画工具，一语成画，支持国风、油画、水彩等多种艺术风格。', '', '', 'https://yige.baidu.com', 'PAINTING', '["AI绘画", "国产", "百度"]', '["一语成画", "多种风格", "零门槛创作", "高清输出"]', 'freemium', 4.7, 18500, 4200, 'ACTIVE', true, true, NOW(), NOW()),
-('通义万相', '阿里云推出的AI视觉生成平台，支持图像生成、视频生成、3D内容创作。', '', '', 'https://tongyi.aliyun.com/wanxiang', 'MULTIMEDIA', '["AI视频", "图像生成", "阿里云"]', '["文生图", "文生视频", "图像编辑", "3D生成"]', 'freemium', 4.8, 22000, 5100, 'ACTIVE', true, true, NOW(), NOW()),
-('豆包', '字节跳动推出的AI助手，日活极高，支持智能对话、内容创作、生活助手等功能。', '', '', 'https://www.doubao.com', 'EFFICIENCY', '["AI对话", "国产", "字节跳动"]', '["智能对话", "内容创作", "生活助手", "多场景应用"]', 'free', 4.6, 35000, 8900, 'ACTIVE', true, true, NOW(), NOW()),
-('通义千问', '阿里云大模型，深度整合阿里生态，支持淘宝、飞猪、高德等服务闭环。', '', '', 'https://tongyi.aliyun.com', 'EFFICIENCY', '["AI对话", "阿里云", "生态整合"]', '["智能对话", "生态闭环", "办事能力", "多模态"]', 'freemium', 4.7, 28000, 6500, 'ACTIVE', true, true, NOW(), NOW()),
-('智谱清言', '智谱AI推出的对话助手，基于ChatGLM模型，擅长学术写作和复杂逻辑推理。', '', '', 'https://chatglm.cn', 'EFFICIENCY', '["AI对话", "学术写作", "国产"]', '["逻辑推理", "学术写作", "多轮对话", "指令遵循"]', 'freemium', 4.6, 16000, 3800, 'ACTIVE', true, false, NOW(), NOW()),
-('即梦AI', '国产AI视频生成工具，支持多模态输入，文生视频效果出色。', '', '', 'https://jimeng.jianying.com', 'MULTIMEDIA', '["AI视频", "国产", "多模态"]', '["文生视频", "多模态输入", "高质量生成", "快速渲染"]', 'freemium', 4.5, 12000, 2900, 'ACTIVE', false, true, NOW(), NOW()),
-('可灵AI', '快手推出的AI视频生成工具，支持数字人生成、运镜控制，视频生成能力领先。', '', '', 'https://klingai.kuaishou.com', 'MULTIMEDIA', '["AI视频", "数字人", "快手"]', '["文生视频", "数字人", "运镜控制", "长视频"]', 'freemium', 4.7, 19000, 4500, 'ACTIVE', true, true, NOW(), NOW()),
-('DeepSeek', '国产AI大模型，擅长复杂逻辑推理、深度阅读和代码任务，专业人士首选。', '', '', 'https://www.deepseek.com', 'EFFICIENCY', '["AI对话", "代码", "逻辑推理"]', '["逻辑推理", "代码生成", "深度阅读", "报告撰写"]', 'freemium', 4.8, 21000, 5600, 'ACTIVE', true, true, NOW(), NOW()),
-('腾讯元宝', '腾讯推出的AI助手，深度绑定微信生态，适合办公纪要、日程管理等场景。', '', '', 'https://yuanbao.tencent.com', 'EFFICIENCY', '["AI对话", "微信生态", "腾讯"]', '["办公助手", "微信集成", "日程管理", "会议纪要"]', 'free', 4.5, 14000, 3200, 'ACTIVE', false, false, NOW(), NOW()),
-('Midjourney', 'AI绘画领域的领导者，通过文字描述生成高质量艺术图像。', '', '', 'https://midjourney.com', 'PAINTING', '["AI绘画", "图像生成", "艺术创作"]', '["文字生成图像", "多种艺术风格", "高清输出", "风格迁移"]', 'paid', 4.8, 12580, 3250, 'ACTIVE', false, true, NOW(), NOW()),
-('ChatGPT', 'OpenAI开发的AI对话助手，支持自然语言对话、代码生成、文本分析。', '', '', 'https://chat.openai.com', 'EFFICIENCY', '["AI对话", "文本生成", "代码助手"]', '["智能对话", "代码生成", "文本分析", "多语言支持"]', 'freemium', 4.9, 25680, 8950, 'ACTIVE', false, true, NOW(), NOW()),
-('Runway', 'AI视频生成和编辑平台，支持文字生成视频、视频编辑、特效添加。', '', '', 'https://runway.ml', 'MULTIMEDIA', '["AI视频", "视频编辑", "特效"]', '["文字生成视频", "视频编辑", "AI特效", "绿幕抠像"]', 'freemium', 4.5, 7890, 1560, 'ACTIVE', false, false, NOW(), NOW());
+-- AI工具数据导入脚本
 
--- 插入资讯数据
-INSERT INTO articles (title, summary, content, cover, author, source, view_count, is_published, published_at, created_at, updated_at) VALUES
-('2026年最值得关注的国内AI工具', 'AI技术飞速发展，本文盘点2026年最值得关注的国内AI工具，帮助你选择最适合的创作工具。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 3580, true, NOW(), NOW(), NOW()),
-('豆包 vs 通义千问：哪个AI助手更适合你？', '详细对比豆包和通义千问的功能特点、使用场景和定价策略，帮助你做出选择。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 2890, true, NOW(), NOW(), NOW()),
-('如何用AI工具提升工作效率？', '分享5个实用技巧，教你如何利用AI工具大幅提升日常工作效率。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 4120, true, NOW(), NOW(), NOW()),
-('文心一格 vs 通义万相：AI绘画工具对比', '深度对比两款国内主流AI绘画工具的功能、效果和使用场景。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 3200, true, NOW(), NOW(), NOW()),
-('可灵AI视频生成完全指南', '从入门到精通，教你如何使用可灵AI创作高质量视频内容。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 2750, true, NOW(), NOW(), NOW()),
-('DeepSeek：程序员的AI编程助手', '详细介绍DeepSeek在代码生成、调试和优化方面的强大能力。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 3890, true, NOW(), NOW(), NOW()),
-('2026年AI行业发展趋势报告', '分析AI技术的最新发展方向和未来应用场景。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 5200, true, NOW(), NOW(), NOW()),
-('智谱清言：学术写作的AI利器', '探索智谱清言在学术论文写作和研究中的应用技巧。', '详细内容...', '', 'AIHub编辑部', 'AIHub3000', 2980, true, NOW(), NOW(), NOW());
+TRUNCATE TABLE tools CASCADE;
+
+INSERT INTO tools (name, description, icon, cover, url, category, tags, features, pricing, rating, view_count, favorite_count, status, is_featured, is_hot, created_at, updated_at) VALUES
+('文心一格', '百度推出的AI绘画工具，支持文生图、图生图等多种创作模式。', '', '', 'https://yige.baidu.com', 'painting', ARRAY['AI绘画', '国产', '百度'], ARRAY['一语成画', '多种风格', '零门槛创作', '高清输出'], 'freemium', 5, 18500, 4200, 'active', true, true, NOW(), NOW()),
+
+('通义万相', '阿里云推出的AI视频和图像生成平台，支持文生图、图生视频等功能。', '', '', 'https://tongyi.aliyun.com/wanxiang', 'multimedia', ARRAY['AI视频', '图像生成', '阿里云'], ARRAY['文生图', '文生视频', '图像编辑', '3D生成'], 'freemium', 5, 12000, 3100, 'active', true, true, NOW(), NOW()),
+
+('豆包', '字节跳动推出的AI助手，支持智能对话、内容创作、生活助手等功能。', '', '', 'https://www.doubao.com', 'chat', ARRAY['AI对话', '国产', '字节跳动'], ARRAY['智能对话', '内容创作', '生活助手', '多场景应用'], 'freemium', 5, 28000, 6500, 'active', true, true, NOW(), NOW()),
+
+('通义千问', '阿里云大模型，深度整合阿里生态，支持淘宝、飞猪、高德等服务闭环。', '', '', 'https://tongyi.aliyun.com/qianwen', 'chat', ARRAY['AI对话', '国产', '阿里云'], ARRAY['深度问答', '生态整合', '多模态', '服务闭环'], 'freemium', 5, 22000, 5800, 'active', true, true, NOW(), NOW()),
+
+('智谱清言', '智谱AI推出的AI助手，支持智能对话、文本分析、代码生成等功能。', '', '', 'https://chatglm.cn', 'chat', ARRAY['AI对话', '国产', '智谱AI'], ARRAY['智能对话', '文本分析', '代码生成', '学术支持'], 'freemium', 4, 8500, 2100, 'active', true, false, NOW(), NOW()),
+
+('Kimi', '月之暗面推出的AI助手，支持超长文本处理、智能对话、文件分析。', '', '', 'https://kimi.moonshot.cn', 'chat', ARRAY['AI对话', '国产', '月之暗面'], ARRAY['超长文本', '智能对话', '文件分析', '联网搜索'], 'freemium', 5, 15000, 3800, 'active', true, true, NOW(), NOW()),
+
+('即梦AI', '字节跳动推出的AI绘画工具，支持数字人生成、视频创作。', '', '', 'https://jimeng.jianying.com', 'painting', ARRAY['AI绘画', '国产', '字节跳动'], ARRAY['数字人生成', '视频创作', '图像生成', '风格多样'], 'freemium', 4, 9200, 2400, 'active', true, false, NOW(), NOW()),
+
+('可灵AI', '快手推出的AI视频生成工具，支持文生视频、图生视频。', '', '', 'https://klingai.kuaishou.com', 'multimedia', ARRAY['AI视频', '国产', '快手'], ARRAY['文生视频', '图生视频', '视频编辑', '特效生成'], 'freemium', 4, 7800, 1900, 'active', true, false, NOW(), NOW()),
+
+('腾讯元宝', '腾讯推出的AI助手，深度绑定微信生态，支持智能对话、内容创作。', '', '', 'https://yuanbao.tencent.com', 'chat', ARRAY['AI对话', '国产', '腾讯'], ARRAY['智能对话', '微信集成', '内容创作', '生活助手'], 'freemium', 4, 11000, 2800, 'active', true, false, NOW(), NOW()),
+
+('讯飞星火', '科大讯飞推出的AI助手，支持智能对话、文本分析、代码生成。', '', '', 'https://xinghuo.xfyun.cn', 'chat', ARRAY['AI对话', '国产', '科大讯飞'], ARRAY['智能对话', '文本分析', '代码生成', '语音交互'], 'freemium', 4, 6800, 1700, 'active', true, false, NOW(), NOW()),
+
+('秘塔AI搜索', 'AI驱动的智能搜索引擎，支持深度搜索、学术研究。', '', '', 'https://metaso.cn', 'search', ARRAY['AI搜索', '国产', '秘塔'], ARRAY['深度搜索', '学术研究', '信息整合', '无广告'], 'freemium', 5, 14000, 3500, 'active', true, true, NOW(), NOW()),
+
+('DeepSeek', '深度求索推出的AI大模型，支持智能对话、代码生成、文本分析。', '', '', 'https://chat.deepseek.com', 'chat', ARRAY['AI对话', '国产', '深度求索'], ARRAY['智能对话', '代码生成', '文本分析', '开源模型'], 'freemium', 5, 25000, 6000, 'active', true, true, NOW(), NOW());

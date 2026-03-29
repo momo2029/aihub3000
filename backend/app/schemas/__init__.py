@@ -1,7 +1,6 @@
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional, List
-from app.models import ToolCategory, ToolStatus
 
 
 # ============ User Schemas ============
@@ -33,7 +32,7 @@ class ToolBase(BaseModel):
     icon: Optional[str] = None
     cover: Optional[str] = None
     url: Optional[str] = None
-    category: ToolCategory
+    category: str
     tags: Optional[List[str]] = None
     features: Optional[List[str]] = None
     pricing: Optional[str] = None
@@ -49,11 +48,11 @@ class ToolUpdate(BaseModel):
     icon: Optional[str] = None
     cover: Optional[str] = None
     url: Optional[str] = None
-    category: Optional[ToolCategory] = None
+    category: Optional[str] = None
     tags: Optional[List[str]] = None
     features: Optional[List[str]] = None
     pricing: Optional[str] = None
-    status: Optional[ToolStatus] = None
+    status: Optional[str] = None
     is_featured: Optional[bool] = None
     is_hot: Optional[bool] = None
 
@@ -63,7 +62,7 @@ class ToolResponse(ToolBase):
     rating: float
     view_count: int
     favorite_count: int
-    status: ToolStatus
+    status: str
     is_featured: bool
     is_hot: bool
     created_at: datetime

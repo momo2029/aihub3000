@@ -59,18 +59,10 @@ Page({
   onUseTap() {
     const { tool } = this.data
     if (tool.url) {
-      wx.copyFile({
-        filePath: tool.url,
+      wx.setClipboardData({
+        data: tool.url,
         success: () => {
           showSuccess('链接已复制')
-        },
-        fail: () => {
-          wx.setClipboardData({
-            data: tool.url,
-            success: () => {
-              showSuccess('链接已复制')
-            }
-          })
         }
       })
     }

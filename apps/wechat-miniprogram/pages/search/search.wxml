@@ -1,0 +1,20 @@
+<view class="search-page">
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索AI工具" value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearch" />
+    <button class="search-btn" bindtap="onSearch">搜索</button>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+
+  <view wx:elif="{{searched && tools.length === 0}}" class="empty">未找到相关工具</view>
+
+  <view wx:else class="tools-list">
+    <view wx:for="{{tools}}" wx:key="id" class="tool-item" data-id="{{item.id}}" bindtap="onToolTap">
+      <image class="tool-icon" src="{{item.icon}}" mode="aspectFill" />
+      <view class="tool-info">
+        <text class="tool-name">{{item.name}}</text>
+        <text class="tool-desc">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+</view>
