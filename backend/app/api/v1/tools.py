@@ -59,7 +59,6 @@ async def get_categories():
             {"key": "painting", "name": "AI绘画", "icon": "palette", "description": "图像生成、编辑、设计"},
             {"key": "chat", "name": "AI对话", "icon": "chat", "description": "智能对话、问答助手"},
             {"key": "multimedia", "name": "AI多媒体", "icon": "video", "description": "视频、音频、3D"},
-            {"key": "search", "name": "AI搜索", "icon": "search", "description": "智能搜索、信息整合"},
         ]
     }
 

@@ -23,6 +23,6 @@ INSERT INTO tools (name, description, icon, cover, url, category, tags, features
 
 ('讯飞星火', '科大讯飞推出的AI助手，支持智能对话、文本分析、代码生成。', '', '', 'https://xinghuo.xfyun.cn', 'chat', ARRAY['AI对话', '国产', '科大讯飞'], ARRAY['智能对话', '文本分析', '代码生成', '语音交互'], 'freemium', 4, 6800, 1700, 'active', true, false, NOW(), NOW()),
 
-('秘塔AI搜索', 'AI驱动的智能搜索引擎，支持深度搜索、学术研究。', '', '', 'https://metaso.cn', 'search', ARRAY['AI搜索', '国产', '秘塔'], ARRAY['深度搜索', '学术研究', '信息整合', '无广告'], 'freemium', 5, 14000, 3500, 'active', true, true, NOW(), NOW()),
+('秘塔AI搜索', 'AI驱动的智能搜索引擎，支持深度搜索、学术研究。', '', '', 'https://metaso.cn', 'chat', ARRAY['AI搜索', '国产', '秘塔'], ARRAY['深度搜索', '学术研究', '信息整合', '无广告'], 'freemium', 5, 14000, 3500, 'active', true, true, NOW(), NOW()),
 
 ('DeepSeek', '深度求索推出的AI大模型，支持智能对话、代码生成、文本分析。', '', '', 'https://chat.deepseek.com', 'chat', ARRAY['AI对话', '国产', '深度求索'], ARRAY['智能对话', '代码生成', '文本分析', '开源模型'], 'freemium', 5, 25000, 6000, 'active', true, true, NOW(), NOW());
