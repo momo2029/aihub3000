@@ -1,15 +1,23 @@
 services:
-  aihub3000-api:
+  aihub3000:
     image: crpi-1e1v7t6udr8xqx6k.cn-beijing.personal.cr.aliyuncs.com/cobola/aihub3000:latest
-    container_name: aihub3000-api
+    container_name: aihub3000
+    restart: unless-stopped
     ports:
       - "8100:8000"
     env_file:
       - .env
-    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - aihub3000_network
+
+networks:
+  aihub3000_network:
+    driver: bridge

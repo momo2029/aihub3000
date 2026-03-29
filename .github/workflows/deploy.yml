@@ -10,7 +10,6 @@ env:
   REGISTRY: crpi-1e1v7t6udr8xqx6k.cn-beijing.personal.cr.aliyuncs.com
   NAMESPACE: cobola
   IMAGE_NAME: aihub3000
-  REMOTE_DIR: /opt/aihub3000
 
 jobs:
   build:
@@ -52,46 +51,46 @@ jobs:
           body: ${{ github.event.head_commit.message }}
           generate_release_notes: false
 
-  deploy:
+  deploy-volc1:
     runs-on: ubuntu-latest
     needs: build
+    environment: volc1
+    timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Sync files
-        run: |
-          rsync -avz --delete \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --exclude='.venv' \
-            --exclude='__pycache__' \
-            --exclude='.env' \
-            ./backend/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ env.REMOTE_DIR }}/
-
-      - name: Write .env file
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ env.REMOTE_DIR }} && cat > ${{ env.REMOTE_DIR }}/.env << 'ENVEOF'
-          ${{ secrets.ENV_FILE }}
-          ENVEOF"
-
-      - name: Deploy
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST_VOLC1 }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
+          timeout: 60s
+          command_timeout: 5m
+          script: |
             cd /opt/aihub3000
+            docker pull ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
             docker compose pull
             docker compose up -d
-            docker image prune -f
-          EOF
+            sleep 10
+            docker ps --filter name=aihub3000 --format "table {{.Names}}\t{{.Status}}"
 
-      - name: Health check
-        run: |
-          sleep 10
-          curl -f https://aihub3000.3198.net/health || exit 1
+  deploy-volc2:
+    runs-on: ubuntu-latest
+    needs: deploy-volc1
+    environment: volc2
+    timeout-minutes: 10
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST_VOLC2 }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
+          timeout: 60s
+          command_timeout: 5m
+          script: |
+            cd /opt/aihub3000
+            docker pull ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+            docker compose pull
+            docker compose up -d
+            sleep 10
+            docker ps --filter name=aihub3000 --format "table {{.Names}}\t{{.Status}}"
