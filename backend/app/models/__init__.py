@@ -48,23 +48,6 @@ class Tool(Base):
     browse_history: Mapped[list["BrowseHistory"]] = relationship(back_populates="tool", cascade="all, delete-orphan")
 
 
-class Article(Base):
-    __tablename__ = "articles"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    title: Mapped[str] = mapped_column(String(200), index=True)
-    summary: Mapped[str | None] = mapped_column(Text)
-    content: Mapped[str | None] = mapped_column(Text)
-    cover: Mapped[str | None] = mapped_column(String(500))
-    author: Mapped[str | None] = mapped_column(String(100))
-    source: Mapped[str | None] = mapped_column(String(200))
-    view_count: Mapped[int] = mapped_column(Integer, default=0)
-    is_published: Mapped[bool] = mapped_column(Boolean, default=False)
-    published_at: Mapped[datetime | None] = mapped_column(DateTime)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-
 class Favorite(Base):
     __tablename__ = "favorites"
 

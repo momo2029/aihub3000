@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "AI资讯",
-  "enablePullDownRefresh": true,
-  "onReachBottomDistance": 100,
-  "usingComponents": {
-    "loading": "/components/loading/loading",
-    "empty": "/components/empty/empty"
-  }
-}

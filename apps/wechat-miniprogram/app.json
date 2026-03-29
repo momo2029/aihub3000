@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/category/category",
     "pages/detail/detail",
-    "pages/article/article",
+    "pages/search/search",
+    "pages/login/login",
     "pages/profile/profile"
   ],
   "window": {
@@ -26,10 +27,6 @@
       {
         "pagePath": "pages/category/category",
         "text": "分类"
-      },
-      {
-        "pagePath": "pages/article/article",
-        "text": "资讯"
       },
       {
         "pagePath": "pages/profile/profile",

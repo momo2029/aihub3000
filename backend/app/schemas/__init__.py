@@ -80,50 +80,6 @@ class ToolListResponse(BaseModel):
     has_more: bool
 
 
-# ============ Article Schemas ============
-class ArticleBase(BaseModel):
-    title: str
-    summary: Optional[str] = None
-    content: Optional[str] = None
-    cover: Optional[str] = None
-    author: Optional[str] = None
-    source: Optional[str] = None
-
-
-class ArticleCreate(ArticleBase):
-    pass
-
-
-class ArticleUpdate(BaseModel):
-    title: Optional[str] = None
-    summary: Optional[str] = None
-    content: Optional[str] = None
-    cover: Optional[str] = None
-    author: Optional[str] = None
-    source: Optional[str] = None
-    is_published: Optional[bool] = None
-
-
-class ArticleResponse(ArticleBase):
-    id: int
-    view_count: int
-    is_published: bool
-    published_at: Optional[datetime] = None
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-class ArticleListResponse(BaseModel):
-    items: List[ArticleResponse]
-    total: int
-    page: int
-    page_size: int
-    has_more: bool
-
-
 # ============ Common Schemas ============
 class Response(BaseModel):
     code: int = 0
