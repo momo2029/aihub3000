@@ -160,10 +160,36 @@ Page({
     return endTime - startTime
   },
 
-  // 测试下载速度 - 使用后端测速文件接口
+  // 测试下载速度 - 使用外部测速文件
   async testDownloadSpeed() {
-    // 下载500KB测试文件
-    const testUrl = 'https://aihub3000.3198.net/api/v1/network/speed-test-file?size=512000'
+    // 测速文件配置
+    const testFiles = {
+      domestic: [
+        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/1MB.test', size: 1048576, name: '阿里云杭州 1MB' },
+        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/10MB.test', size: 10485760, name: '阿里云杭州 10MB' }
+      ],
+      overseas: [
+        { url: 'https://speed.cloudflare.com/__down?bytes=1048576', size: 1048576, name: 'Cloudflare 1MB' },
+        { url: 'https://speed.cloudflare.com/__down?bytes=10485760', size: 10485760, name: 'Cloudflare 10MB' }
+      ]
+    }
+
+    // 根据IP归属地判断是国内还是国外
+    const location = this.data.ipLocation || ''
+    const isDomestic = location.includes('中国') || location.includes('北京') || location.includes('上海') ||
+                       location.includes('广州') || location.includes('深圳') || location.includes('杭州') ||
+                       location.includes('江苏') || location.includes('浙江') || location.includes('四川')
+
+    // 根据网络类型选择测速服务器和文件大小
+    const isWifi = this.data.networkType === 'wifi'
+    const testList = isDomestic ? testFiles.domestic : testFiles.overseas
+    const testFile = isWifi ? testList[1] : testList[0]  // WiFi用10MB，移动网络用1MB
+
+    const testUrl = testFile.url
+    const expectedSize = testFile.size
+
+    console.log(`测速配置: ${isDomestic ? '国内' : '国外'} - ${testFile.name}`)
+
     let totalBytes = 0
     let totalTime = 0
     const testCount = 3
@@ -176,8 +202,8 @@ Page({
           wx.request({
             url: testUrl,
             method: 'GET',
-            timeout: 15000,
-            responseType: 'arraybuffer', // 使用arraybuffer获取二进制数据
+            timeout: 30000,
+            responseType: 'arraybuffer',
             success: resolve,
             fail: reject
           })
@@ -186,20 +212,59 @@ Page({
         const endTime = Date.now()
         const duration = endTime - startTime
 
-        // 获取实际下载的字节数
-        const bytes = res.data.byteLength || 512000
+        const bytes = res.data.byteLength || expectedSize
         totalBytes += bytes
         totalTime += duration
 
-        // 更新进度
         const progress = Math.round(((i + 1) / testCount) * 100)
         this.setData({ 'speedTest.progress': progress })
+
+        console.log(`测速第${i + 1}次: ${bytes} bytes, ${duration}ms`)
       } catch (error) {
         console.error('Download test failed:', error)
+        if (testFile.size > 1048576) {
+          return await this.testDownloadSpeedFallback()
+        }
       }
     }
 
-    // 计算速度 (bytes/ms -> bytes/s)
+    if (totalTime > 0) {
+      return (totalBytes / totalTime) * 1000
+    }
+    return 0
+  },
+
+  // 备用测速方案 - 使用后端接口
+  async testDownloadSpeedFallback() {
+    const testUrl = 'https://aihub3000.3198.net/api/v1/network/speed-test-file?size=512000'
+    let totalBytes = 0
+    let totalTime = 0
+    const testCount = 3
+
+    for (let i = 0; i < testCount; i++) {
+      const startTime = Date.now()
+      try {
+        const res = await new Promise((resolve, reject) => {
+          wx.request({
+            url: testUrl,
+            method: 'GET',
+            timeout: 15000,
+            responseType: 'arraybuffer',
+            success: resolve,
+            fail: reject
+          })
+        })
+        const endTime = Date.now()
+        const duration = endTime - startTime
+        const bytes = res.data.byteLength || 512000
+        totalBytes += bytes
+        totalTime += duration
+        this.setData({ 'speedTest.progress': Math.round(((i + 1) / testCount) * 100) })
+      } catch (error) {
+        console.error('Fallback test failed:', error)
+      }
+    }
+
     if (totalTime > 0) {
       return (totalBytes / totalTime) * 1000
     }
