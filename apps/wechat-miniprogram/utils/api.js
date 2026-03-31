@@ -234,6 +234,26 @@ const api = {
       return mockResponse(mock.mockTools.slice(0, 3))
     }
     return request({ url: '/users/history' })
+  },
+
+  // 网络相关
+  getIPInfo: async () => {
+    if (USE_MOCK) {
+      return mockResponse({
+        ip: '192.168.1.100',
+        ipv6: '2408:8207:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx',
+        location: '中国 北京市',
+        isp: '中国电信'
+      })
+    }
+    return request({ url: '/network/ip' })
+  },
+
+  ping: async () => {
+    if (USE_MOCK) {
+      return mockResponse({ time: Date.now() })
+    }
+    return request({ url: '/network/ping' })
   }
 }
 

@@ -1,0 +1,153 @@
+<view class="network-page">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <text class="title">网络信息</text>
+      <text class="subtitle">查看您的网络状态与测速</text>
+    </view>
+  </view>
+
+  <!-- Loading -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text>正在获取网络信息...</text>
+  </view>
+
+  <!-- Network Status -->
+  <view class="section" wx:if="{{!loading}}">
+    <view class="section-title">
+      <text class="iconfont icon-network"></text>
+      网络状态
+    </view>
+    <view class="card status-card">
+      <view class="status-row">
+        <view class="status-item">
+          <text class="status-label">网络类型</text>
+          <text class="status-value {{isConnected ? 'connected' : 'disconnected'}}">
+            {{networkType === 'wifi' ? 'WiFi' : networkType === 'unknown' ? '未知' : networkType}}
+          </text>
+        </view>
+        <view class="status-item">
+          <text class="status-label">连接状态</text>
+          <text class="status-value {{isConnected ? 'connected' : 'disconnected'}}">
+            {{isConnected ? '已连接' : '未连接'}}
+          </text>
+        </view>
+      </view>
+      <view class="status-indicator {{isConnected ? 'online' : 'offline'}}">
+        <text class="indicator-dot"></text>
+        <text>{{isConnected ? '网络正常' : '网络异常'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Device Info -->
+  <view class="section" wx:if="{{!loading}}">
+    <view class="section-title">
+      <text class="iconfont icon-device"></text>
+      设备信息
+    </view>
+    <view class="card device-card">
+      <view class="info-row">
+        <text class="info-label">设备型号</text>
+        <text class="info-value">{{deviceInfo.brand}} {{deviceInfo.model}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">系统版本</text>
+        <text class="info-value">{{deviceInfo.system}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">运行平台</text>
+        <text class="info-value">{{deviceInfo.platform}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">小程序版本</text>
+        <text class="info-value">{{deviceInfo.SDKVersion}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- IP Info -->
+  <view class="section" wx:if="{{!loading}}">
+    <view class="section-title">
+      <text class="iconfont icon-ip"></text>
+      IP 地址
+    </view>
+    <view class="card ip-card">
+      <view class="ip-main">
+        <text class="ip-label">公网 IP</text>
+        <view class="ip-value-wrap" bindtap="copyIP">
+          <text class="ip-value">{{publicIP || '获取失败'}}</text>
+          <text class="iconfont icon-copy" wx:if="{{publicIP}}"></text>
+        </view>
+      </view>
+      <view class="ip-detail" wx:if="{{ipLocation || isp}}">
+        <view class="ip-row" wx:if="{{ipLocation}}">
+          <text class="ip-detail-label">归属地</text>
+          <text class="ip-detail-value">{{ipLocation}}</text>
+        </view>
+        <view class="ip-row" wx:if="{{isp}}">
+          <text class="ip-detail-label">运营商</text>
+          <text class="ip-detail-value">{{isp}}</text>
+        </view>
+      </view>
+      <view class="ipv6-section" wx:if="{{ipv6}}">
+        <text class="ipv6-label">IPv6</text>
+        <text class="ipv6-value">{{ipv6}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Speed Test -->
+  <view class="section" wx:if="{{!loading}}">
+    <view class="section-title">
+      <text class="iconfont icon-speed"></text>
+      网络测速
+    </view>
+    <view class="card speed-card">
+      <!-- Speed Test Button -->
+      <view class="speed-test-btn {{speedTesting ? 'disabled' : ''}}" bindtap="startSpeedTest">
+        <view class="speed-icon {{speedTesting ? 'testing' : ''}}">
+          <text class="iconfont icon-play" wx:if="{{!speedTesting}}"></text>
+          <view class="spinner" wx:if="{{speedTesting}}"></view>
+        </view>
+        <text class="speed-btn-text">{{speedTesting ? '测速中...' : '开始测速'}}</text>
+      </view>
+
+      <!-- Speed Results -->
+      <view class="speed-results" wx:if="{{speedTest.downloadSpeed > 0 || speedTest.latency > 0}}">
+        <view class="result-item">
+          <text class="result-label">延迟</text>
+          <text class="result-value">{{speedTest.latency}}ms</text>
+          <view class="result-bar latency-bar" style="width: {{Math.min(speedTest.latency / 10, 100)}}%"></view>
+        </view>
+        <view class="result-item">
+          <text class="result-label">下载速度</text>
+          <text class="result-value">{{speedTest.downloadSpeed < 1024 ? speedTest.downloadSpeed.toFixed(0) + ' B/s' : speedTest.downloadSpeed < 1024 * 1024 ? (speedTest.downloadSpeed / 1024).toFixed(2) + ' KB/s' : (speedTest.downloadSpeed / 1024 / 1024).toFixed(2) + ' MB/s'}}</text>
+          <view class="result-bar download-bar" style="width: {{Math.min(speedTest.downloadSpeed / 1024, 100)}}%"></view>
+        </view>
+      </view>
+
+      <!-- Speed Tips -->
+      <view class="speed-tips">
+        <text class="tips-icon">💡</text>
+        <text class="tips-text">测速结果仅供参考，实际速度受网络环境影响</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Info Note -->
+  <view class="info-note" wx:if="{{!loading}}">
+    <text class="note-icon">ℹ️</text>
+    <text class="note-text">由于小程序隐私限制，无法获取MAC地址和本地私有IP地址</text>
+  </view>
+
+  <!-- Share Button -->
+  <view class="share-section" wx:if="{{!loading}}">
+    <button class="share-btn" open-type="share">
+      <text class="iconfont icon-share"></text>
+      分享给好友
+    </button>
+  </view>
+</view>
