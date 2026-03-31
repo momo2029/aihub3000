@@ -177,8 +177,7 @@ Page({
     // 测速文件配置
     const testFiles = {
       domestic: [
-        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/1MB.test', size: 1048576, name: '国内 1MB' },
-        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/10MB.test', size: 10485760, name: '国内 10MB' }
+        { url: 'https://dldir1.qq.com/weixin/Windows/WeChatSetup.exe', size: 15318384, name: '国内 微信安装包 15MB' }
       ],
       overseas: [
         { url: 'https://speed.cloudflare.com/__down?bytes=1048576', size: 1048576, name: '国外 1MB' },
@@ -186,10 +185,11 @@ Page({
       ]
     }
 
-    // 根据网络类型选择文件大小：WiFi用10MB，移动网络用1MB
+    // 根据网络类型选择文件大小：WiFi用10MB，移动网络用1MB（仅国外）
     const isWifi = this.data.networkType === 'wifi'
     const testList = testFiles[type]
-    const testFile = isWifi ? testList[1] : testList[0]
+    // 国内只有一个文件，国外根据网络类型选择
+    const testFile = type === 'domestic' ? testList[0] : (isWifi ? testList[1] : testList[0])
 
     const testUrl = testFile.url
     const expectedSize = testFile.size
