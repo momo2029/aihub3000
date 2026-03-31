@@ -1,3 +1,4 @@
+<wxs src="./network.wxs" module="utils" />
 <view class="network-page">
   <!-- Header -->
   <view class="header">
@@ -120,12 +121,12 @@
         <view class="result-item">
           <text class="result-label">延迟</text>
           <text class="result-value">{{speedTest.latency}}ms</text>
-          <view class="result-bar latency-bar" style="width: {{Math.min(speedTest.latency / 10, 100)}}%"></view>
+          <view class="result-bar latency-bar" style="width: {{utils.getLatencyWidth(speedTest.latency)}}%"></view>
         </view>
         <view class="result-item">
           <text class="result-label">下载速度</text>
-          <text class="result-value">{{speedTest.downloadSpeed < 1024 ? speedTest.downloadSpeed.toFixed(0) + ' B/s' : speedTest.downloadSpeed < 1024 * 1024 ? (speedTest.downloadSpeed / 1024).toFixed(2) + ' KB/s' : (speedTest.downloadSpeed / 1024 / 1024).toFixed(2) + ' MB/s'}}</text>
-          <view class="result-bar download-bar" style="width: {{Math.min(speedTest.downloadSpeed / 1024, 100)}}%"></view>
+          <text class="result-value">{{utils.formatSpeed(speedTest.downloadSpeed)}}</text>
+          <view class="result-bar download-bar" style="width: {{utils.getProgressWidth(speedTest.downloadSpeed)}}%"></view>
         </view>
       </view>
 

@@ -1,7 +1,19 @@
 {
   "libVersion": "3.15.1",
   "projectname": "AIHub3000",
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/network/network",
+          "pathName": "pages/network/network",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  },
   "setting": {
     "urlCheck": false,
     "coverView": true,

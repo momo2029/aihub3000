@@ -1,0 +1,34 @@
+// 格式化速度
+function formatSpeed(bytesPerSecond) {
+  if (bytesPerSecond < 1024) {
+    return bytesPerSecond + ' B/s'
+  } else if (bytesPerSecond < 1024 * 1024) {
+    return (bytesPerSecond / 1024).toFixed(2) + ' KB/s'
+  } else {
+    return (bytesPerSecond / 1024 / 1024).toFixed(2) + ' MB/s'
+  }
+}
+
+// 计算下载进度条宽度
+function getProgressWidth(bytesPerSecond) {
+  var width = bytesPerSecond / 1024
+  if (width > 100) {
+    width = 100
+  }
+  return width
+}
+
+// 计算延迟进度条宽度
+function getLatencyWidth(latency) {
+  var width = latency / 10
+  if (width > 100) {
+    width = 100
+  }
+  return width
+}
+
+module.exports = {
+  formatSpeed: formatSpeed,
+  getProgressWidth: getProgressWidth,
+  getLatencyWidth: getLatencyWidth
+}
