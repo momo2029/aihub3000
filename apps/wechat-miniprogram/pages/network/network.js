@@ -5,16 +5,16 @@ Page({
     // 网络状态
     networkType: '',
     isConnected: true,
-    
+
     // 设备信息
     deviceInfo: {},
-    
+
     // IP信息
     publicIP: '',
     ipv6: '',
     ipLocation: '',
     isp: '',
-    
+
     // 测速结果
     speedTest: {
       downloading: false,
@@ -23,7 +23,7 @@ Page({
       latency: 0,
       progress: 0
     },
-    
+
     // 状态
     loading: true,
     speedTesting: false
@@ -42,16 +42,16 @@ Page({
   async loadNetworkInfo() {
     try {
       this.setData({ loading: true })
-      
+
       // 获取网络状态
       const networkInfo = await this.getNetworkStatus()
-      
+
       // 获取设备信息
       const deviceInfo = wx.getSystemInfoSync()
-      
+
       // 获取公网IP信息
       const ipInfo = await this.getPublicIP()
-      
+
       this.setData({
         networkType: networkInfo.networkType,
         isConnected: networkInfo.isConnected,
@@ -110,7 +110,7 @@ Page({
   // 开始测速
   async startSpeedTest() {
     if (this.data.speedTesting) return
-    
+
     this.setData({
       speedTesting: true,
       speedTest: {
@@ -121,20 +121,20 @@ Page({
         progress: 0
       }
     })
-    
+
     try {
       // 1. 测试延迟
       wx.showLoading({ title: '测试延迟...', mask: true })
       const latency = await this.testLatency()
       this.setData({ 'speedTest.latency': latency })
-      
+
       // 2. 测试下载速度
       wx.showLoading({ title: '测试下载...', mask: true })
       const downloadSpeed = await this.testDownloadSpeed()
       this.setData({ 'speedTest.downloadSpeed': downloadSpeed })
-      
+
       wx.hideLoading()
-      
+
       // 显示结果
       wx.showModal({
         title: '测速完成',
@@ -148,7 +148,7 @@ Page({
         icon: 'error'
       })
     }
-    
+
     this.setData({ speedTesting: false })
   },
 
@@ -160,50 +160,48 @@ Page({
     return endTime - startTime
   },
 
-  // 测试下载速度
+  // 测试下载速度 - 使用后端测速文件接口
   async testDownloadSpeed() {
-    const testUrls = [
-      'https://aihub3000.3198.net/api/v1/tools?page_size=1',
-      'https://aihub3000.3198.net/api/v1/tools/categories'
-    ]
-    
-    const testSize = 1024 * 100 // 约100KB测试
+    // 下载500KB测试文件
+    const testUrl = 'https://aihub3000.3198.net/api/v1/network/speed-test-file?size=512000'
     let totalBytes = 0
     let totalTime = 0
-    
-    for (let i = 0; i < 3; i++) {
+    const testCount = 3
+
+    for (let i = 0; i < testCount; i++) {
       const startTime = Date.now()
-      
+
       try {
         const res = await new Promise((resolve, reject) => {
           wx.request({
-            url: testUrls[i % testUrls.length],
+            url: testUrl,
             method: 'GET',
-            timeout: 10000,
+            timeout: 15000,
+            responseType: 'arraybuffer', // 使用arraybuffer获取二进制数据
             success: resolve,
             fail: reject
           })
         })
-        
+
         const endTime = Date.now()
         const duration = endTime - startTime
-        
-        // 估算数据大小（响应体）
-        const bytes = JSON.stringify(res.data).length
+
+        // 获取实际下载的字节数
+        const bytes = res.data.byteLength || 512000
         totalBytes += bytes
         totalTime += duration
-        
+
         // 更新进度
-        const progress = Math.round(((i + 1) / 3) * 100)
+        const progress = Math.round(((i + 1) / testCount) * 100)
         this.setData({ 'speedTest.progress': progress })
       } catch (error) {
         console.error('Download test failed:', error)
       }
     }
-    
-    // 计算速度 (bytes/ms -> KB/s)
+
+    // 计算速度 (bytes/ms -> bytes/s)
     if (totalTime > 0) {
-      return (totalBytes / totalTime) * 1000 // bytes/s
+      return (totalBytes / totalTime) * 1000
     }
     return 0
   },
