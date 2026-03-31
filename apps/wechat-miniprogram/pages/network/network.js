@@ -20,8 +20,12 @@ Page({
       downloading: false,
       uploadSpeed: 0,
       downloadSpeed: 0,
+      domesticSpeed: 0,  // 国内速度
+      overseasSpeed: 0,  // 国外速度
       latency: 0,
-      progress: 0
+      progress: 0,
+      domesticProgress: 0,
+      overseasProgress: 0
     },
 
     // 状态
@@ -116,9 +120,12 @@ Page({
       speedTest: {
         downloading: false,
         downloadSpeed: 0,
-        uploadSpeed: 0,
+        domesticSpeed: 0,
+        overseasSpeed: 0,
         latency: 0,
-        progress: 0
+        progress: 0,
+        domesticProgress: 0,
+        overseasProgress: 0
       }
     })
 
@@ -128,17 +135,22 @@ Page({
       const latency = await this.testLatency()
       this.setData({ 'speedTest.latency': latency })
 
-      // 2. 测试下载速度
-      wx.showLoading({ title: '测试下载...', mask: true })
-      const downloadSpeed = await this.testDownloadSpeed()
-      this.setData({ 'speedTest.downloadSpeed': downloadSpeed })
+      // 2. 测试国内速度
+      wx.showLoading({ title: '测试国内...', mask: true })
+      const domesticSpeed = await this.testDownloadSpeed('domestic')
+      this.setData({ 'speedTest.domesticSpeed': domesticSpeed })
+
+      // 3. 测试国外速度
+      wx.showLoading({ title: '测试国外...', mask: true })
+      const overseasSpeed = await this.testDownloadSpeed('overseas')
+      this.setData({ 'speedTest.overseasSpeed': overseasSpeed })
 
       wx.hideLoading()
 
       // 显示结果
       wx.showModal({
         title: '测速完成',
-        content: `延迟: ${latency}ms\n下载速度: ${this.formatSpeed(downloadSpeed)}`,
+        content: `延迟: ${latency}ms\n国内: ${this.formatSpeed(domesticSpeed)}\n国外: ${this.formatSpeed(overseasSpeed)}`,
         showCancel: false
       })
     } catch (error) {
@@ -160,35 +172,29 @@ Page({
     return endTime - startTime
   },
 
-  // 测试下载速度 - 使用外部测速文件
-  async testDownloadSpeed() {
+  // 测试下载速度 - type: 'domestic' 或 'overseas'
+  async testDownloadSpeed(type) {
     // 测速文件配置
     const testFiles = {
       domestic: [
-        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/1MB.test', size: 1048576, name: '阿里云杭州 1MB' },
-        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/10MB.test', size: 10485760, name: '阿里云杭州 10MB' }
+        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/1MB.test', size: 1048576, name: '国内 1MB' },
+        { url: 'https://speedtest-100mb.oss-cn-hangzhou.aliyuncs.com/10MB.test', size: 10485760, name: '国内 10MB' }
       ],
       overseas: [
-        { url: 'https://speed.cloudflare.com/__down?bytes=1048576', size: 1048576, name: 'Cloudflare 1MB' },
-        { url: 'https://speed.cloudflare.com/__down?bytes=10485760', size: 10485760, name: 'Cloudflare 10MB' }
+        { url: 'https://speed.cloudflare.com/__down?bytes=1048576', size: 1048576, name: '国外 1MB' },
+        { url: 'https://speed.cloudflare.com/__down?bytes=10485760', size: 10485760, name: '国外 10MB' }
       ]
     }
 
-    // 根据IP归属地判断是国内还是国外
-    const location = this.data.ipLocation || ''
-    const isDomestic = location.includes('中国') || location.includes('北京') || location.includes('上海') ||
-                       location.includes('广州') || location.includes('深圳') || location.includes('杭州') ||
-                       location.includes('江苏') || location.includes('浙江') || location.includes('四川')
-
-    // 根据网络类型选择测速服务器和文件大小
+    // 根据网络类型选择文件大小：WiFi用10MB，移动网络用1MB
     const isWifi = this.data.networkType === 'wifi'
-    const testList = isDomestic ? testFiles.domestic : testFiles.overseas
-    const testFile = isWifi ? testList[1] : testList[0]  // WiFi用10MB，移动网络用1MB
+    const testList = testFiles[type]
+    const testFile = isWifi ? testList[1] : testList[0]
 
     const testUrl = testFile.url
     const expectedSize = testFile.size
 
-    console.log(`测速配置: ${isDomestic ? '国内' : '国外'} - ${testFile.name}`)
+    console.log(`测速配置: ${testFile.name}`)
 
     let totalBytes = 0
     let totalTime = 0
@@ -216,14 +222,21 @@ Page({
         totalBytes += bytes
         totalTime += duration
 
+        // 更新对应进度
         const progress = Math.round(((i + 1) / testCount) * 100)
-        this.setData({ 'speedTest.progress': progress })
+        if (type === 'domestic') {
+          this.setData({ 'speedTest.domesticProgress': progress })
+        } else {
+          this.setData({ 'speedTest.overseasProgress': progress })
+        }
 
         console.log(`测速第${i + 1}次: ${bytes} bytes, ${duration}ms`)
       } catch (error) {
         console.error('Download test failed:', error)
         if (testFile.size > 1048576) {
-          return await this.testDownloadSpeedFallback()
+          // 大文件失败，尝试小文件
+          const fallbackFile = testList[0]
+          return await this.testSingleFile(fallbackFile.url, fallbackFile.size, type)
         }
       }
     }
@@ -234,9 +247,8 @@ Page({
     return 0
   },
 
-  // 备用测速方案 - 使用后端接口
-  async testDownloadSpeedFallback() {
-    const testUrl = 'https://aihub3000.3198.net/api/v1/network/speed-test-file?size=512000'
+  // 测试单个文件
+  async testSingleFile(url, expectedSize, type) {
     let totalBytes = 0
     let totalTime = 0
     const testCount = 3
@@ -246,7 +258,7 @@ Page({
       try {
         const res = await new Promise((resolve, reject) => {
           wx.request({
-            url: testUrl,
+            url: url,
             method: 'GET',
             timeout: 15000,
             responseType: 'arraybuffer',
@@ -256,12 +268,17 @@ Page({
         })
         const endTime = Date.now()
         const duration = endTime - startTime
-        const bytes = res.data.byteLength || 512000
+        const bytes = res.data.byteLength || expectedSize
         totalBytes += bytes
         totalTime += duration
-        this.setData({ 'speedTest.progress': Math.round(((i + 1) / testCount) * 100) })
+        const progress = Math.round(((i + 1) / testCount) * 100)
+        if (type === 'domestic') {
+          this.setData({ 'speedTest.domesticProgress': progress })
+        } else {
+          this.setData({ 'speedTest.overseasProgress': progress })
+        }
       } catch (error) {
-        console.error('Fallback test failed:', error)
+        console.error('Single file test failed:', error)
       }
     }
 

@@ -117,16 +117,21 @@
       </view>
 
       <!-- Speed Results -->
-      <view class="speed-results" wx:if="{{speedTest.downloadSpeed > 0 || speedTest.latency > 0}}">
+      <view class="speed-results" wx:if="{{speedTest.domesticSpeed > 0 || speedTest.overseasSpeed > 0 || speedTest.latency > 0}}">
         <view class="result-item">
           <text class="result-label">延迟</text>
           <text class="result-value">{{speedTest.latency}}ms</text>
           <view class="result-bar latency-bar" style="width: {{utils.getLatencyWidth(speedTest.latency)}}%"></view>
         </view>
         <view class="result-item">
-          <text class="result-label">下载速度</text>
-          <text class="result-value">{{utils.formatSpeed(speedTest.downloadSpeed)}}</text>
-          <view class="result-bar download-bar" style="width: {{utils.getProgressWidth(speedTest.downloadSpeed)}}%"></view>
+          <text class="result-label">国内速度</text>
+          <text class="result-value">{{utils.formatSpeed(speedTest.domesticSpeed)}}</text>
+          <view class="result-bar download-bar" style="width: {{utils.getProgressWidth(speedTest.domesticSpeed)}}%"></view>
+        </view>
+        <view class="result-item">
+          <text class="result-label">国外速度</text>
+          <text class="result-value">{{utils.formatSpeed(speedTest.overseasSpeed)}}</text>
+          <view class="result-bar overseas-bar" style="width: {{utils.getProgressWidth(speedTest.overseasSpeed)}}%"></view>
         </view>
       </view>
 
